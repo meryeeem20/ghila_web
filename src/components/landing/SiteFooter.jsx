@@ -73,7 +73,8 @@ function PlayFooter() {
 const quick = [
   ['Accueil', '/#accueil'],
   ['Comment ça marche', '/comment-ca-marche'],
-  ['À propos', '/#a-propos'],
+  ['À propos', '/a-propos'],
+  ['Contact', '/contact'],
   ['Politique de confidentialité', '/politique-confidentialite'],
 ]
 
@@ -89,7 +90,7 @@ export function SiteFooter() {
     <footer id="contact" className="bg-ghila-dark text-white/80">
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
-          <div id="a-propos">
+          <div>
             <Logo variant="light" />
             <p className="mt-4 text-sm leading-relaxed text-white/75">
               Ghila rapproche les meilleurs restaurants de votre quotidien. Commandez en ligne,

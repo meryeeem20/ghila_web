@@ -6,10 +6,11 @@ import { Logo } from './Logo.jsx'
 
 const links = [
   { to: '/', hash: '#accueil', label: 'Accueil' },
+  { to: '/', hash: '#restaurants', label: 'Restaurants' },
+  { to: '/', hash: '#offres', label: 'Offres' },
   { to: '/comment-ca-marche', label: 'Comment ça marche' },
-  { to: '/', hash: '#a-propos', label: 'À propos' },
-  { to: '/', hash: '#contact', label: 'Contact' },
-  { to: '/politique-confidentialite', label: 'Politique de confidentialité' },
+  { to: '/a-propos', label: 'À propos' },
+  { to: '/contact', label: 'Contact' },
 ]
 
 export function Navbar() {
@@ -17,7 +18,7 @@ export function Navbar() {
   const { pathname } = useLocation()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200/80 bg-white/95 shadow-sm backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-gray-200/60 bg-white/80 shadow-sm backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 py-4 pl-0 pr-5 sm:gap-6 sm:pl-0 sm:pr-6 lg:gap-8 lg:pl-1 lg:pr-8">
         <Logo className="-ml-2 shrink-0 sm:-ml-3 md:-ml-4 lg:-ml-5" size="nav" />
 
@@ -29,18 +30,26 @@ export function Navbar() {
           {links.map(({ to, hash, label }) => {
             const href = hash ? `${to}${hash}` : to
             const isActive =
-              label === 'Politique de confidentialité'
-                ? pathname === '/politique-confidentialite'
-                : label === 'Comment ça marche'
-                  ? pathname === '/comment-ca-marche'
-                  : pathname === '/' && (!hash || hash === '#accueil')
+              label === 'Comment ça marche'
+                ? pathname === '/comment-ca-marche'
+                : label === 'À propos'
+                  ? pathname === '/a-propos'
+                  : label === 'Contact'
+                    ? pathname === '/contact'
+                    : label === 'Restaurants'
+                      ? pathname === '/' && hash === '#restaurants'
+                      : label === 'Offres'
+                        ? pathname === '/' && hash === '#offres'
+                        : pathname === '/' && (!hash || hash === '#accueil')
 
             return (
               <motion.div key={href} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                 <Link
                   to={href}
                   className={`block rounded-lg px-3 py-2 text-center text-sm font-medium transition lg:py-1 ${
-                    isActive ? 'text-ghila-lime' : 'text-ghila-dark hover:text-ghila-lime'
+                    isActive
+                      ? 'font-semibold text-ghila-accent'
+                      : 'text-ghila-primary hover:text-ghila-accent'
                   }`}
                   onClick={() => setOpen(false)}
                 >
@@ -52,13 +61,13 @@ export function Navbar() {
           <div className="mt-4 flex flex-col gap-2 border-t border-gray-100 pt-4 lg:hidden">
             <button
               type="button"
-              className="rounded-full border border-ghila-dark/20 bg-white py-2.5 text-sm font-semibold text-ghila-dark"
+              className="rounded-full border border-ghila-dark/15 bg-white py-2.5 text-sm font-semibold text-ghila-dark"
             >
               Se connecter
             </button>
             <button
               type="button"
-              className="rounded-full bg-ghila-lime py-2.5 text-sm font-semibold text-ghila-dark shadow-soft transition hover:shadow-glow"
+              className="rounded-full bg-ghila-accent py-2.5 text-sm font-semibold text-white shadow-soft"
             >
               S&apos;inscrire
             </button>
@@ -68,7 +77,7 @@ export function Navbar() {
         <div className="hidden items-center gap-3 lg:flex">
           <motion.button
             type="button"
-            className="rounded-full border border-ghila-dark/15 bg-white px-5 py-2.5 text-sm font-semibold text-ghila-dark shadow-sm transition hover:border-ghila-dark/30 hover:shadow-soft"
+            className="rounded-full border border-ghila-dark/15 bg-white px-5 py-2.5 text-sm font-semibold text-ghila-dark shadow-sm transition hover:border-ghila-accent/50"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -76,7 +85,7 @@ export function Navbar() {
           </motion.button>
           <motion.button
             type="button"
-            className="rounded-full bg-ghila-lime px-5 py-2.5 text-sm font-semibold text-ghila-dark shadow-soft transition hover:shadow-glow"
+            className="rounded-full bg-ghila-accent px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:opacity-95"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
           >
