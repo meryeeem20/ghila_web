@@ -58,7 +58,7 @@ export function HeroSection() {
   return (
     <section
       id="accueil"
-      className="relative isolate overflow-x-clip bg-ghila-cream pb-20 pt-10 sm:pb-28 sm:pt-14 lg:min-h-[90vh] lg:pb-32"
+      className="relative isolate overflow-visible bg-ghila-cream pb-28 pt-10 sm:pb-32 sm:pt-14 lg:min-h-[90vh] lg:pb-40"
     >
       <div className="pointer-events-none absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-ghila-lime/15 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 top-10 h-96 w-96 rounded-full bg-ghila-lime/10 blur-3xl" />

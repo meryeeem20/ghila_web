@@ -9,7 +9,7 @@ import { ContactPage } from './pages/ContactPage.jsx'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-ghila-cream">
+    <div className="min-h-screen overflow-x-hidden bg-ghila-cream">
       <Navbar />
       <main>
         <Routes>

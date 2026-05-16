@@ -5,8 +5,8 @@ export function PhoneFrame({
   children,
   className = '',
   imageClassName = 'object-cover object-top',
-  /** Classes max-h du cadre écran (aspect conservé). Défaut : taille hero. */
-  screenMaxClassName = 'max-h-[min(520px,58vh)] sm:max-h-[min(560px,62vh)]',
+  /** Limite de hauteur optionnelle ; par défaut la hauteur suit l’aspect du téléphone (pas de rognage). */
+  screenMaxClassName = '',
 }) {
   return (
     <div
@@ -14,7 +14,7 @@ export function PhoneFrame({
     >
       <div className="overflow-hidden rounded-[2.62rem] bg-[#0a0a0a] p-[2px] ring-1 ring-black/60">
         <div
-          className={`relative aspect-[1290/2796] w-full overflow-hidden rounded-[2.48rem] bg-black ${screenMaxClassName}`}
+          className={`relative aspect-[1290/2796] w-full overflow-hidden rounded-[2.48rem] bg-black ${screenMaxClassName}`.trim()}
         >
           {children ?? (
             <img
