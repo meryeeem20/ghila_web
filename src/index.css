@@ -5,6 +5,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Échelle globale ~75 % : à zoom navigateur 100 %, rendu proche de ce que vous voyiez à 75 %. */
+    zoom: 0.75;
   }
   body {
     @apply font-sans text-ghila-dark antialiased bg-ghila-cream;
