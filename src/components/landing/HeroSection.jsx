@@ -3,6 +3,7 @@ import { Leaf } from 'lucide-react'
 import heroBurger from '../../assets/hero-burger-main.png'
 import appHome from '../../assets/ghila-app-home.png'
 import appCart from '../../assets/ghila-app-cart.png'
+import { PhoneFrame } from './PhoneFrame.jsx'
 
 const saladImg =
   'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=85'
@@ -50,50 +51,6 @@ function PlayBtn() {
         <span className="mt-0.5 block text-[0.95rem] font-semibold">Google Play</span>
       </span>
     </motion.a>
-  )
-}
-
-/** Mockup iPhone 15 Pro Max — cadre titane, Dynamic Island, proportions écran ~1290×2796 */
-function PhoneFrame({ screenSrc, label, className = '' }) {
-  return (
-    <div
-      className={`relative rounded-[2.85rem] bg-gradient-to-b from-[#8e8c89] via-[#5c5a57] to-[#3f3d3b] p-[3px] shadow-[0_2px_0_rgba(255,255,255,0.18)_inset,0_-2px_6px_rgba(0,0,0,0.35)_inset,0_32px_64px_-12px_rgba(0,0,0,0.42)] ${className}`.trim()}
-    >
-      <div className="overflow-hidden rounded-[2.62rem] bg-[#0a0a0a] p-[2px] ring-1 ring-black/60">
-        <div className="relative aspect-[1290/2796] w-full max-h-[min(520px,58vh)] overflow-hidden rounded-[2.48rem] bg-black sm:max-h-[min(560px,62vh)]">
-          <img
-            src={screenSrc}
-            alt={label}
-            className="h-full w-full object-cover object-top"
-            loading="eager"
-            decoding="async"
-          />
-          {/* Dynamic Island */}
-          <div
-            className="pointer-events-none absolute left-1/2 top-[11px] z-20 h-[29px] w-[min(118px,31%)] min-w-[76px] -translate-x-1/2 rounded-full bg-black shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-1px_2px_rgba(0,0,0,0.8),0_4px_12px_rgba(0,0,0,0.45)]"
-            aria-hidden
-          />
-          {/* Reflet discret bord supérieur écran */}
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-white/10 to-transparent"
-            aria-hidden
-          />
-        </div>
-      </div>
-      {/* Boutons latéraux (rappel visuel) */}
-      <div
-        className="pointer-events-none absolute left-[2px] top-[22%] h-10 w-[2px] rounded-full bg-gradient-to-b from-white/25 to-white/5 opacity-70"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute left-[2px] top-[32%] h-14 w-[2px] rounded-full bg-gradient-to-b from-white/20 to-white/5 opacity-70"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute right-[2px] top-[28%] h-20 w-[2px] rounded-full bg-gradient-to-b from-white/15 to-white/5 opacity-50"
-        aria-hidden
-      />
-    </div>
   )
 }
 
@@ -184,7 +141,7 @@ export function HeroSection() {
                 <PhoneFrame
                   screenSrc={appCart}
                   label="Aperçu application Ghila — Panier"
-                  className="relative z-10 w-[min(228px,50vw)] -rotate-6 translate-x-3 sm:w-[248px]"
+                  className="relative z-10 w-[min(240px,52vw)] -rotate-6 translate-x-3 sm:w-[260px]"
                 />
               </motion.div>
               <motion.div
@@ -200,7 +157,7 @@ export function HeroSection() {
                 <PhoneFrame
                   screenSrc={appHome}
                   label="Aperçu application Ghila — Accueil"
-                  className="relative z-20 w-[min(238px,52vw)] rotate-[7deg] sm:w-[260px]"
+                  className="relative z-20 w-[min(252px,54vw)] rotate-[7deg] sm:w-[280px]"
                 />
               </motion.div>
             </motion.div>

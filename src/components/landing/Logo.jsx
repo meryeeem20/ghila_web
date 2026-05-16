@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom'
-import ghilaLogo from '../../assets/ghila-logo.png'
+import ghilaLogoNav from '../../assets/ghila-logo-nav.png'
+import ghilaLogoFooter from '../../assets/ghila-logo-footer.png'
 
 /**
- * Logo officiel Ghila (fichier image).
- * @param {'dark' | 'light'} variant — `light` : léger encadrement clair sur fond sombre (footer).
+ * Logo Ghila : version « nav » (fond clair) et version « footer » (logo plein sur fond vert).
+ * @param {'dark' | 'light'} variant — `light` : logo officiel plein pour le pied de page.
  * @param {'default' | 'nav'} size — `nav` : logo plus grand (barre de navigation).
  */
 export function Logo({ className = '', variant = 'dark', size = 'default' }) {
   const isLight = variant === 'light'
   const isNav = size === 'nav'
+
+  const src = isLight ? ghilaLogoFooter : ghilaLogoNav
 
   const imgClass = isNav
     ? 'h-14 w-auto max-w-[min(440px,92vw)] object-contain object-left sm:h-16 md:h-[5rem] lg:h-[5.5rem] xl:h-24'
@@ -22,12 +25,12 @@ export function Logo({ className = '', variant = 'dark', size = 'default' }) {
       className={`inline-flex shrink-0 items-center no-underline transition-opacity hover:opacity-90 ${className}`.trim()}
     >
       <img
-        src={ghilaLogo}
+        src={src}
         alt="Ghila"
         width={w}
         height={h}
         className={`${imgClass} ${
-          isLight ? 'rounded-xl bg-white/95 px-3 py-2 shadow-md ring-1 ring-white/15' : ''
+          isLight ? 'rounded-xl shadow-lg ring-1 ring-white/15' : ''
         }`}
         loading="eager"
         decoding="async"

@@ -16,8 +16,31 @@ import {
 } from 'lucide-react'
 import appHome from '../../assets/ghila-app-home.png'
 import appCart from '../../assets/ghila-app-cart.png'
-import { PhoneFrame } from './PhoneFrame.jsx'
-import { RestaurantAppScreen, DriverAppScreen } from './InterfaceScreens.jsx'
+import driverAccueil from '../../assets/driver-livreur-accueil.png'
+import driverLivraison from '../../assets/driver-livreur-livraison.png'
+import driverPhoto from '../../assets/driver-livreur-photo.png'
+import driverConfirme from '../../assets/driver-livreur-confirme.png'
+import { PhoneFrame15ProMax } from './PhoneFrame15ProMax.jsx'
+import { RestaurantAppScreen } from './InterfaceScreens.jsx'
+
+const driverScreens = [
+  {
+    src: driverAccueil,
+    label: 'App livreur Ghila — Accueil, gains du jour et nouvelle commande',
+  },
+  {
+    src: driverLivraison,
+    label: 'App livreur Ghila — Livraison en cours sur la carte',
+  },
+  {
+    src: driverPhoto,
+    label: 'App livreur Ghila — Photo de preuve de livraison',
+  },
+  {
+    src: driverConfirme,
+    label: 'App livreur Ghila — Livraison confirmée et gains',
+  },
+]
 
 const roles = [
   {
@@ -89,23 +112,23 @@ const roles = [
     steps: [
       {
         icon: Navigation,
-        title: 'Activez votre disponibilité',
-        text: 'Passez en ligne pour recevoir les courses disponibles près de votre position.',
-      },
-      {
-        icon: PackageCheck,
-        title: 'Acceptez une livraison',
-        text: 'Visualisez la distance, le restaurant et l’adresse client avant de confirmer.',
+        title: 'Passez en ligne',
+        text: 'Activez votre statut, consultez vos gains du jour et recevez les nouvelles commandes en temps réel.',
       },
       {
         icon: MapPin,
-        title: 'Suivez l’itinéraire',
-        text: 'Navigation intégrée avec estimation d’arrivée et suivi GPS en direct.',
+        title: 'Suivez la livraison',
+        text: 'Carte interactive, itinéraire restaurant → client, étapes guidées et appel en un clic.',
+      },
+      {
+        icon: PackageCheck,
+        title: 'Photo de preuve',
+        text: 'Prenez une photo devant la porte du client comme preuve de livraison.',
       },
       {
         icon: Bike,
-        title: 'Confirmez la livraison',
-        text: 'Validez la remise au client et consultez vos gains sur votre historique.',
+        title: 'Livraison confirmée',
+        text: 'Course validée, pourboire client optionnel — vos gains sont ajoutés à votre solde.',
       },
     ],
     screen: 'livreur',
@@ -119,22 +142,19 @@ function RoleScreen({ screen, stepIndex }) {
       stepIndex >= 2
         ? 'Application Ghila — Panier client'
         : 'Application Ghila — Accueil client'
-    return <PhoneFrame screenSrc={src} label={label} compact className="mx-auto w-[min(260px,72vw)]" />
+    return <PhoneFrame15ProMax screenSrc={src} label={label} />
   }
 
   if (screen === 'restaurant') {
     return (
-      <PhoneFrame label="Interface restaurant Ghila" compact className="mx-auto w-[min(260px,72vw)]">
+      <PhoneFrame15ProMax label="Interface restaurant Ghila">
         <RestaurantAppScreen />
-      </PhoneFrame>
+      </PhoneFrame15ProMax>
     )
   }
 
-  return (
-    <PhoneFrame label="Interface livreur Ghila" compact className="mx-auto w-[min(260px,72vw)]">
-      <DriverAppScreen />
-    </PhoneFrame>
-  )
+  const driverShot = driverScreens[stepIndex] ?? driverScreens[0]
+  return <PhoneFrame15ProMax screenSrc={driverShot.src} label={driverShot.label} />
 }
 
 export function HowItWorksSection() {
@@ -150,7 +170,7 @@ export function HowItWorksSection() {
 
   return (
     <motion.section
-      className="relative isolate overflow-hidden bg-gradient-to-b from-ghila-cream via-white to-ghila-cream py-16 sm:py-20 lg:py-28"
+      className="relative isolate overflow-x-clip bg-gradient-to-b from-ghila-cream via-white to-ghila-cream py-16 sm:py-20 lg:py-28"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
@@ -224,7 +244,7 @@ export function HowItWorksSection() {
               <p className="max-w-xl text-lg font-medium text-ghila-dark">{active.tagline}</p>
             </div>
 
-            <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <motion.div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
               {/* Étapes */}
               <div className="order-2 lg:order-1">
                 <ol className="space-y-3">
@@ -277,13 +297,13 @@ export function HowItWorksSection() {
               </div>
 
               {/* Visuel téléphone */}
-              <div className="order-1 flex justify-center lg:order-2">
-                <div className="relative">
+              <motion.div className="order-1 flex justify-center overflow-visible lg:order-2 lg:sticky lg:top-28">
+                <motion.div className="relative w-full max-w-[300px]">
                   <motion.div
-                    className={`pointer-events-none absolute -inset-8 rounded-[3rem] bg-gradient-to-br ${active.accent} opacity-80 blur-2xl`}
+                    className={`pointer-events-none absolute -inset-3 rounded-[2.5rem] bg-gradient-to-br ${active.accent} opacity-60 blur-xl`}
                     aria-hidden
                   />
-                  <div className="relative rounded-[3rem] border border-white/60 bg-gradient-to-br from-white to-ghila-cream/80 p-6 shadow-[0_24px_80px_-20px_rgba(6,59,45,0.2)] sm:p-8">
+                  <motion.div className="relative overflow-visible rounded-[2rem] border border-white/60 bg-gradient-to-br from-white to-ghila-cream/80 px-4 py-6 shadow-[0_20px_60px_-16px_rgba(6,59,45,0.18)] sm:px-5 sm:py-7">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={`${active.id}-${activeStep}`}
@@ -295,7 +315,7 @@ export function HowItWorksSection() {
                         <RoleScreen screen={active.screen} stepIndex={activeStep} />
                       </motion.div>
                     </AnimatePresence>
-                  </div>
+                  </motion.div>
                   {/* Indicateurs d’étape */}
                   <div className="mt-6 flex justify-center gap-2">
                     {active.steps.map((_, i) => (
@@ -310,9 +330,9 @@ export function HowItWorksSection() {
                       />
                     ))}
                   </div>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </AnimatePresence>
       </div>

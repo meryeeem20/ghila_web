@@ -1,21 +1,126 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Logo } from './Logo.jsx'
 
+const joinOptions = [
+  {
+    to: '/contact?rejoindre=magasin',
+    line1: 'Rejoindre en tant que',
+    line2: 'Magasin',
+  },
+  {
+    to: '/contact?rejoindre=livreur',
+    line1: 'Rejoindre en tant que',
+    line2: 'Livreur',
+  },
+]
+
+function JoinUsMenu({ onNavigate, variant = 'desktop', parentNavOpen }) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const wrapRef = useRef(null)
+
+  useEffect(() => {
+    if (variant === 'mobile' && parentNavOpen === false) {
+      setMenuOpen(false)
+    }
+  }, [variant, parentNavOpen])
+
+  useEffect(() => {
+    function handlePointerDown(e) {
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handlePointerDown)
+    document.addEventListener('touchstart', handlePointerDown)
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown)
+      document.removeEventListener('touchstart', handlePointerDown)
+    }
+  }, [])
+
+  const close = () => setMenuOpen(false)
+  const itemClass =
+    'block w-full rounded-lg px-4 py-3 text-left transition hover:bg-gray-50 focus-visible:outline focus-visible:ring-2 focus-visible:ring-ghila-lime/40'
+
+  const panelClass =
+    variant === 'desktop'
+      ? 'absolute right-0 top-[calc(100%+6px)] z-[120] min-w-[220px] rounded-xl border border-gray-200/90 bg-white py-1 shadow-lg'
+      : 'absolute right-0 top-[calc(100%+6px)] z-[130] mt-0 min-w-[220px] rounded-xl border border-gray-200/90 bg-white py-1 shadow-md'
+
+  return (
+    <div
+      className={
+        variant === 'desktop'
+          ? 'relative shrink-0'
+          : 'relative ml-auto w-max max-w-full shrink-0'
+      }
+      ref={wrapRef}
+    >
+      <motion.button
+        type="button"
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-ghila-lime px-5 py-2.5 text-sm font-bold text-ghila-dark shadow-soft transition hover:brightness-95"
+        aria-expanded={menuOpen}
+        aria-haspopup="menu"
+        onClick={() => setMenuOpen((v) => !v)}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        Rejoignez-nous
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 transition-transform ${menuOpen ? 'rotate-180' : ''}`}
+          aria-hidden
+        />
+      </motion.button>
+      {menuOpen ? (
+        <div className={panelClass} role="menu">
+          {joinOptions.map(({ to, line1, line2 }) => (
+            <Link
+              key={to}
+              to={to}
+              role="menuitem"
+              className={itemClass}
+              onClick={() => {
+                close()
+                onNavigate?.()
+              }}
+            >
+              <span className="block text-[0.7rem] font-medium leading-tight text-gray-600">
+                {line1}
+              </span>
+              <span className="mt-0.5 block text-sm font-semibold text-gray-900">{line2}</span>
+            </Link>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 const links = [
   { to: '/', hash: '#accueil', label: 'Accueil' },
-  { to: '/', hash: '#restaurants', label: 'Restaurants' },
-  { to: '/', hash: '#offres', label: 'Offres' },
   { to: '/comment-ca-marche', label: 'Comment ça marche' },
   { to: '/a-propos', label: 'À propos' },
   { to: '/contact', label: 'Contact' },
+  { to: '/politique-confidentialite', label: 'Politique de confidentialité' },
 ]
 
 export function Navbar() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
+
+  useEffect(() => {
+    if (!open) return
+    const onResize = () => {
+      if (typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches) {
+        setOpen(false)
+      }
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [open])
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200/60 bg-white/80 shadow-sm backdrop-blur-xl">
@@ -36,11 +141,9 @@ export function Navbar() {
                   ? pathname === '/a-propos'
                   : label === 'Contact'
                     ? pathname === '/contact'
-                    : label === 'Restaurants'
-                      ? pathname === '/' && hash === '#restaurants'
-                      : label === 'Offres'
-                        ? pathname === '/' && hash === '#offres'
-                        : pathname === '/' && (!hash || hash === '#accueil')
+                    : label === 'Politique de confidentialité'
+                      ? pathname === '/politique-confidentialite'
+                      : pathname === '/' && (!hash || hash === '#accueil')
 
             return (
               <motion.div key={href} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
@@ -58,39 +161,17 @@ export function Navbar() {
               </motion.div>
             )
           })}
-          <div className="mt-4 flex flex-col gap-2 border-t border-gray-100 pt-4 lg:hidden">
-            <button
-              type="button"
-              className="rounded-full border border-ghila-dark/15 bg-white py-2.5 text-sm font-semibold text-ghila-dark"
-            >
-              Se connecter
-            </button>
-            <button
-              type="button"
-              className="rounded-full bg-ghila-accent py-2.5 text-sm font-semibold text-white shadow-soft"
-            >
-              S&apos;inscrire
-            </button>
+          <div className="mt-4 border-t border-gray-100 pt-4 lg:hidden">
+            <JoinUsMenu
+              variant="mobile"
+              parentNavOpen={open}
+              onNavigate={() => setOpen(false)}
+            />
           </div>
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <motion.button
-            type="button"
-            className="rounded-full border border-ghila-dark/15 bg-white px-5 py-2.5 text-sm font-semibold text-ghila-dark shadow-sm transition hover:border-ghila-accent/50"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Se connecter
-          </motion.button>
-          <motion.button
-            type="button"
-            className="rounded-full bg-ghila-accent px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:opacity-95"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            S&apos;inscrire
-          </motion.button>
+        <div className="hidden shrink-0 lg:flex">
+          <JoinUsMenu variant="desktop" />
         </div>
 
         <button

@@ -1,23 +1,27 @@
-/** Mockup iPhone — cadre titane, Dynamic Island */
-export function PhoneFrame({ screenSrc, label, children, className = '', compact = false }) {
-  const maxH = compact
-    ? 'max-h-[min(420px,52vh)]'
-    : 'max-h-[min(520px,58vh)] sm:max-h-[min(560px,62vh)]'
-
+/** Mockup iPhone léger — page d'accueil (hero) */
+export function PhoneFrame({
+  screenSrc,
+  label,
+  children,
+  className = '',
+  imageClassName = 'object-cover object-top',
+  /** Classes max-h du cadre écran (aspect conservé). Défaut : taille hero. */
+  screenMaxClassName = 'max-h-[min(520px,58vh)] sm:max-h-[min(560px,62vh)]',
+}) {
   return (
     <div
       className={`relative rounded-[2.85rem] bg-gradient-to-b from-[#8e8c89] via-[#5c5a57] to-[#3f3d3b] p-[3px] shadow-[0_2px_0_rgba(255,255,255,0.18)_inset,0_-2px_6px_rgba(0,0,0,0.35)_inset,0_32px_64px_-12px_rgba(0,0,0,0.42)] ${className}`.trim()}
     >
       <div className="overflow-hidden rounded-[2.62rem] bg-[#0a0a0a] p-[2px] ring-1 ring-black/60">
         <div
-          className={`relative aspect-[1290/2796] w-full ${maxH} overflow-hidden rounded-[2.48rem] bg-[#0a0a0a]`}
+          className={`relative aspect-[1290/2796] w-full overflow-hidden rounded-[2.48rem] bg-black ${screenMaxClassName}`}
         >
           {children ?? (
             <img
               src={screenSrc}
               alt={label}
-              className="h-full w-full object-cover object-top"
-              loading="lazy"
+              className={`h-full w-full ${imageClassName}`}
+              loading="eager"
               decoding="async"
             />
           )}
@@ -33,6 +37,10 @@ export function PhoneFrame({ screenSrc, label, children, className = '', compact
       </div>
       <div
         className="pointer-events-none absolute left-[2px] top-[22%] h-10 w-[2px] rounded-full bg-gradient-to-b from-white/25 to-white/5 opacity-70"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute left-[2px] top-[32%] h-14 w-[2px] rounded-full bg-gradient-to-b from-white/20 to-white/5 opacity-70"
         aria-hidden
       />
       <div
